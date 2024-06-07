@@ -1,4 +1,5 @@
 #サンプルで使用するデータ
+
 insert into product(name, price) values('コーヒー', 300);
 insert into product(name, price) values('カプチーノ', 350);
 insert into product(name, price) values('ラテ', 350);
