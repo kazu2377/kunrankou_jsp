@@ -1,16 +1,20 @@
 package chapter14;
 
-import tool.Page;
 import java.io.IOException;
 import java.io.PrintWriter;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.WebServlet;
-import javax.naming.InitialContext;
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import tool.Page;
 
 @WebServlet(urlPatterns={"/chapter14/transaction"})
 public class Transaction extends HttpServlet {
@@ -30,7 +34,30 @@ public class Transaction extends HttpServlet {
 			int price=Integer.parseInt(request.getParameter("price"));
 
 			con.setAutoCommit(false);
+            con.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 
+            
+            int defaultIsolationLevel = con.getTransactionIsolation();
+            String isolationLevelName;
+            switch (defaultIsolationLevel) {
+                case Connection.TRANSACTION_READ_UNCOMMITTED:
+                    isolationLevelName = "READ UNCOMMITTED";
+                    break;
+                case Connection.TRANSACTION_READ_COMMITTED:
+                    isolationLevelName = "READ COMMITTED";
+                    break;
+                case Connection.TRANSACTION_REPEATABLE_READ:
+                    isolationLevelName = "REPEATABLE READ";
+                    break;
+                case Connection.TRANSACTION_SERIALIZABLE:
+                    isolationLevelName = "SERIALIZABLE";
+                    break;
+                default:
+                    isolationLevelName = "UNKNOWN";
+            }
+            System.out.println("Default Transaction Isolation Level: " + isolationLevelName);
+            
+            
 			PreparedStatement st=con.prepareStatement(
 				"insert into product(name, price) values(?, ?)");
 			st.setString(1, name);
@@ -46,6 +73,11 @@ public class Transaction extends HttpServlet {
 				line++;
 			}
 
+            // トランザクション1を一定時間待機
+            System.out.println("トランザクション1が待機しています...");
+            Thread.sleep(10000);  // 10秒間待機
+            System.out.println("トランザクション1が待機終了しました。");
+            
 			if (line==1) {
 				con.commit();
 				out.println("商品を登録しました。");

@@ -17,6 +17,7 @@ public class Customer implements java.io.Serializable {
 	}
 	
 	public void setId(int id) {
+		
 		this.id=id;
 	}
 	public void setLogin(String login) {
@@ -24,5 +25,10 @@ public class Customer implements java.io.Serializable {
 	}
 	public void setPassword(String password) {
 		this.password=password;
+	}
+	
+	public void test()
+	{
+		
 	}
 }
