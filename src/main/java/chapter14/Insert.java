@@ -1,15 +1,19 @@
 package chapter14;
 
-import tool.Page;
 import java.io.IOException;
 import java.io.PrintWriter;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.WebServlet;
-import javax.naming.InitialContext;
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import tool.Page;
 
 @WebServlet(urlPatterns={"/chapter14/insert"})
 public class Insert extends HttpServlet {
@@ -46,3 +50,54 @@ public class Insert extends HttpServlet {
 		Page.footer(out);
 	}
 }
+//package chapter14;
+//
+//import java.io.IOException;
+//import java.io.PrintWriter;
+//import java.sql.Connection;
+//import java.sql.Statement;
+//
+//import javax.naming.InitialContext;
+//import javax.sql.DataSource;
+//
+//import jakarta.servlet.ServletException;
+//import jakarta.servlet.annotation.WebServlet;
+//import jakarta.servlet.http.HttpServlet;
+//import jakarta.servlet.http.HttpServletRequest;
+//import jakarta.servlet.http.HttpServletResponse;
+//import tool.Page;
+//
+//@WebServlet(urlPatterns={"/chapter14/insert"})
+//public class Insert extends HttpServlet {
+//
+//    public void doPost(
+//        HttpServletRequest request, HttpServletResponse response
+//    ) throws ServletException, IOException {
+//        PrintWriter out = response.getWriter();
+//        Page.header(out);
+//        try {
+//            InitialContext ic = new InitialContext();
+//            DataSource ds = (DataSource) ic.lookup(
+//                "java:/comp/env/jdbc/book");
+//            Connection con = ds.getConnection();
+//
+//            String name = request.getParameter("name");
+//            String price = request.getParameter("price");
+//
+//            // 直接SQL文を文字列として作成（SQLインジェクションの原因）
+//            String sql = "INSERT INTO product(name, price) VALUES('" + name + "', " + price + ")";
+//            Statement st = con.createStatement();
+//            int line = st.executeUpdate(sql);
+//
+//            if (line > 0) {
+//                out.println("追加に成功しました。");
+//            }
+//
+//            st.close();
+//            con.close();
+//        } catch (Exception e) {
+//            e.printStackTrace(out);
+//        }
+//        Page.footer(out);
+//    }
+//}

@@ -34,7 +34,7 @@ public class Transaction extends HttpServlet {
 			int price=Integer.parseInt(request.getParameter("price"));
 
 			con.setAutoCommit(false);
-            con.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            con.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
 
             
             int defaultIsolationLevel = con.getTransactionIsolation();
@@ -74,9 +74,9 @@ public class Transaction extends HttpServlet {
 			}
 
             // トランザクション1を一定時間待機
-            System.out.println("トランザクション1が待機しています...");
-            Thread.sleep(10000);  // 10秒間待機
-            System.out.println("トランザクション1が待機終了しました。");
+//            System.out.println("トランザクション1が待機しています...");
+//            Thread.sleep(10000);  // 10秒間待機
+//            System.out.println("トランザクション1が待機終了しました。");
             
 			if (line==1) {
 				con.commit();
