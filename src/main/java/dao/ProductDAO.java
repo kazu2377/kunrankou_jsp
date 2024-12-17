@@ -1,11 +1,12 @@
 package dao;
 
-import bean.Product;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+
+import bean.Product;
 
 public class ProductDAO extends DAO {
 
@@ -42,6 +43,7 @@ public class ProductDAO extends DAO {
 		st.setInt(2, product.getPrice());
 		int line=st.executeUpdate();
 
+		//こめんと
 		st.close();
 		con.close();
 		return line;
