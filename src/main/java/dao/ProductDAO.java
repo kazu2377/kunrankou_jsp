@@ -43,7 +43,7 @@ public class ProductDAO extends DAO {
 		st.setInt(2, product.getPrice());
 		int line=st.executeUpdate();
 
-		//こめんと２個め
+		//１度目
 		st.close();
 		con.close();
 		return line;
