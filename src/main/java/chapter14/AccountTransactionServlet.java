@@ -64,11 +64,11 @@ public class AccountTransactionServlet extends HttpServlet {
 
             // トランザクション開始
             con.setAutoCommit(false);
-            // 隔離レベルを設定（必要に応じて変更可能）
-            con.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            // 隔離レベルを設定（リードコミット）
+            con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 
-            // 口座を取得（FOR UPDATE を使用して悲観的ロック）
-            String selectSql = "SELECT balance FROM account WHERE account_id = ? FOR UPDATE";
+            // 口座を取得（バージョン情報も取得）
+            String selectSql = "SELECT balance, version FROM account WHERE account_id = ?";
             selectStmt = con.prepareStatement(selectSql);
             selectStmt.setInt(1, accountId);
             rs = selectStmt.executeQuery();
@@ -76,10 +76,12 @@ public class AccountTransactionServlet extends HttpServlet {
             if (!rs.next()) {
                 con.rollback();
                 out.println("指定された口座が存在しません。");
+                Page.footer(out);
                 return;
             }
 
             double currentBalance = rs.getDouble("balance");
+            int currentVersion = rs.getInt("version");
             double newBalance;
 
             if ("deposit".equalsIgnoreCase(action)) {
@@ -88,25 +90,30 @@ public class AccountTransactionServlet extends HttpServlet {
                 if (currentBalance < amount) {
                     con.rollback();
                     out.println("残高不足です。");
+                    Page.footer(out);
                     return;
                 }
                 newBalance = currentBalance - amount;
             } else {
                 con.rollback();
                 out.println("無効なアクションです。");
+                Page.footer(out);
                 return;
             }
 
-            // 口座残高を更新
-            String updateSql = "UPDATE account SET balance = ? WHERE account_id = ?";
+            // 口座残高とバージョンを更新（楽観ロックを適用）
+            String updateSql = "UPDATE account SET balance = ?, version = version + 1 WHERE account_id = ? AND version = ?";
             updateStmt = con.prepareStatement(updateSql);
             updateStmt.setDouble(1, newBalance);
             updateStmt.setInt(2, accountId);
+            updateStmt.setInt(3, currentVersion);
             int updatedRows = updateStmt.executeUpdate();
 
             if (updatedRows != 1) {
+                // バージョンが一致しない場合（他のトランザクションによる更新があった場合）
                 con.rollback();
-                out.println("口座の更新に失敗しました。");
+                out.println("データの競合が発生しました。再度お試しください。");
+                Page.footer(out);
                 return;
             }
 

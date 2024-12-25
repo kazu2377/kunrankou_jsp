@@ -1,4 +1,5 @@
 <%@page contentType="text/html; charset=UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,6 +8,11 @@
 </head>
 <body>
     <h1>口座取引</h1>
+    
+    <c:if test="${not empty message}">
+        <p>${message}</p>
+    </c:if>
+    
     <form action="accountTransaction" method="post">
         <label for="accountId">口座ID:</label>
         <input type="number" id="accountId" name="accountId" required><br><br>

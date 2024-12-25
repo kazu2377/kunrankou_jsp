@@ -1,4 +1,5 @@
 <%@page contentType="text/html; charset=UTF-8"%>
+<%@ page pageEncoding="UTF-8" %>
 <%@include file="../header.html"%>
 
 <p>追加する商品を入力してください。</p>

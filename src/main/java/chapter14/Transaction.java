@@ -36,20 +36,39 @@ public class Transaction extends HttpServlet {
 
 			con.setAutoCommit(false);
             // SERIALIZABLEを使用して悲観ロックと併用可能
-            con.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE); 
+            con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED); 
 
-			// 悲観ロックを使用するためのクエリ（SELECT ... FOR UPDATE）
+			// 悲観ロックを使用するためのクエリ（SELECT ... FOR UPDATE ）
 			PreparedStatement st=con.prepareStatement(
-				"SELECT * FROM product WHERE name = ?");
+				"SELECT * FROM product WHERE name = ? ");
 			st.setString(1, name);
 			ResultSet rs=st.executeQuery();
 			
 			int count = 0;
 			while (rs.next()) {
+			    System.out.println(rs.getString(3)); // 金額
+			    
+	
+	            
 			    count++;
 			}
 
+			
+			 // 2. 残高を更新
+            String updateSQL = "UPDATE product SET price = ? WHERE name = ?";
+            PreparedStatement updateSsttmt = con.prepareStatement(updateSQL);
+             updateSsttmt.setInt(1, 900);
+             updateSsttmt.setString(2, name);
+            int rowsUpdated = updateSsttmt.executeUpdate();
+
+            if (rowsUpdated != 1) {
+				 System.out.println("2残高の更新に失敗しました: ");
+
+            }
+            
+
 			System.out.println("１度目件数: " + count);
+			
 			
 			
 			 st=con.prepareStatement(
@@ -59,6 +78,8 @@ public class Transaction extends HttpServlet {
 				 
 				  count = 0;
 				 while (rs.next()) {
+					    System.out.println(rs.getString(3)); // 列名を指定
+
 				     count++;
 				 }
 
