@@ -24,4 +24,18 @@
 <c:set target="${map}" property="apple" value="りんご" />
 <p>map.apple : ${map.apple}</p>
 
+<c:forTokens items="apple,banana,cherry" delims="," var="fruit">
+    <p>${fruit}</p>
+</c:forTokens>
+
+<c:import url="/chapter22/header.jsp" />
+
+333
+<c:url value="/example.jsp" />
+
+
+<c:url value="/login.jsp" var="loginUrl" />
+<a href="${loginUrl}">Login</a>
+
+
 <%@include file="../footer.html" %>
