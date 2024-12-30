@@ -1,0 +1,45 @@
+/* styles.css */
+
+.message-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+    font-family: 'Sawarabi Mincho', serif;
+    color: #333;
+    padding: 1rem;
+}
+
+.message-box {
+    background-color: #fff0f5; /* ラベンダーブラッシュ */
+    border: 1px solid #add8e6; /* ライトブルー */
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+}
+
+.message-box a {
+    color: #0056b3; /* ブルー */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.message-box a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .message-box {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .message-box {
+        padding: 1rem;
+        font-size: 0.9rem;
+    }
+}

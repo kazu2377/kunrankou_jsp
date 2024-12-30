@@ -1,5 +1,5 @@
 <%@page contentType="text/html; charset=UTF-8" %>
-<%@include file="../header.html" %>
+<%@include file="../header.jsp" %>
 <%@include file="../chapter25/menu.jsp" %>
 
 <style>
@@ -119,9 +119,7 @@
             <div class="align-center">
                 <input class="btn" type="submit" value="ログイン">
             </div>
-            <div style="text-align: left; margin-top: 1rem;">
-                <small><a href="#" class="small-link">パスワードを忘れた方</a></small>
-            </div>
+           
         </form>
     </div>
 </div>
