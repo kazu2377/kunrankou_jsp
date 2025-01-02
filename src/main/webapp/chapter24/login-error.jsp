@@ -6,4 +6,4 @@
 		<div class="message-box">ログイン名またはパスワードが違います。</div>
 	</div>
 </div>
-<%@include file="../footer.html"%>
+<%@include file="../footer.jsp"%>
