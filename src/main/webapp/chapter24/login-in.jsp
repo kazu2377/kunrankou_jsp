@@ -153,16 +153,6 @@ input[type="text"], input[type="password"] {
 				// エラーメッセージを格納する配列
 				let errors = [];
 
-				// メールアドレスの必須チェック
-// 				if (validator.isEmpty(email)) {
-// 					errors.push('メールアドレスを入力してください。');
-// 				} else {
-// 					// メールアドレスの形式チェック
-// 					if (!validator.isEmail(email)) {
-// 						errors.push('有効なメールアドレスを入力してください。');
-// 					}
-// 				}
-
 				// パスワードの必須チェック
 				if (validator.isEmpty(password)) {
 					errors.push('パスワードを入力してください。');
