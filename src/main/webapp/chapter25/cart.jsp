@@ -76,6 +76,29 @@
         color: #555;
     }
 
+    .cart-item select {
+        padding: 0.4rem;
+        border: 1px solid #c9c2bc;
+        border-radius: 4px;
+        margin-bottom: 0.5rem;
+    }
+
+    .cart-item .update-button {
+        padding: 0.5rem 1rem;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: background-color 0.3s ease;
+        margin-bottom: 0.5rem;
+    }
+
+    .cart-item .update-button:hover {
+        background-color: #0056b3;
+    }
+
     .cart-item a {
         padding: 0.5rem 1rem;
         background-color: #dc3545;
@@ -112,6 +135,12 @@
             font-size: 0.95rem;
         }
 
+        .cart-item select,
+        .cart-item .update-button {
+            font-size: 0.9rem;
+            padding: 0.35rem 0.7rem;
+        }
+
         .cart-item a {
             padding: 0.4rem 0.8rem;
             font-size: 0.95rem;
@@ -142,6 +171,12 @@
             font-size: 0.9rem;
         }
 
+        .cart-item select,
+        .cart-item .update-button {
+            font-size: 0.85rem;
+            padding: 0.3rem 0.6rem;
+        }
+
         .cart-item a {
             padding: 0.3rem 0.6rem;
             font-size: 0.9rem;
@@ -163,7 +198,19 @@
                         <img src="image/${item.product.id}.jpg" alt="商品画像${item.product.id}">
                         <h3>商品${item.product.id}: ${item.product.name}</h3>
                         <p>価格: ${item.product.price}円</p>
-                        <p class="quantity">数量: ${item.count}個</p>
+                        
+                        <!-- 数量変更フォーム -->
+                        <form action="CartAdd.action" method="post">
+                            <input type="hidden" name="id" value="${item.product.id}">
+                            <label for="quantity-${item.product.id}">数量:</label>
+                            <select name="quantity" id="quantity-${item.product.id}">
+                                <c:forEach var="i" begin="1" end="20">
+                                    <option value="${i}" <c:if test="${i == item.count}">selected</c:if>>${i}個</option>
+                                </c:forEach>
+                            </select>
+                            <input type="submit" value="更新" class="update-button">
+                        </form>
+                        
                         <a href="CartRemove.action?id=${item.product.id}">カートから削除</a>
                     </div>
                 </c:forEach>
