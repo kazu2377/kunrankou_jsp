@@ -191,8 +191,7 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/validator@13.9.0/validator.min.js"></script>
 <script>
-	// ページ読み込み後に実行
-	document.addEventListener('DOMContentLoaded', function() {
+
 		const form = document.getElementById('search-form');
 		const errorElement = document.getElementById('error-message');
 
@@ -224,6 +223,5 @@
 			// バリデーションを通過した場合はフォーム送信
 			return true;
 		});
-	});
 </script>
 <%@include file="../footer.html"%>

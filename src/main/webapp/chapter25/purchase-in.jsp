@@ -241,8 +241,7 @@
     <!-- Validator.js ライブラリの追加 -->
 <script src="https://cdn.jsdelivr.net/npm/validator@13.9.0/validator.min.js"></script>
     <script>
-        // ページ読み込み後に実行
-        document.addEventListener('DOMContentLoaded', function() {
+
             const form = document.getElementById('purchase-form');
             const errorElement = document.getElementById('error-message');
 
@@ -289,7 +288,6 @@
                 // バリデーションを通過した場合はフォーム送信
                 return errors.length === 0;
             });
-        });
     </script>
 </body>
 </html>
