@@ -187,10 +187,20 @@
 <div class="wrapper">
     <h2 class="heading-large">カート</h2>
 
+    <!-- 合計金額と合計個数の計算 -->
+    <c:set var="totalQuantity" value="0" />
+    <c:set var="totalAmount" value="0" />
+
+    <c:forEach var="item" items="${cart}">
+        <c:set var="totalQuantity" value="${totalQuantity + item.count}" />
+        <c:set var="totalAmount" value="${totalAmount + (item.product.price * item.count)}" />
+    </c:forEach>
+
     <c:choose>
         <c:when test="${not empty cart and cart.size() > 0}">
             <div class="cart-info">
-                ${cart.size()}種類の商品があります。
+                ${cart.size()}種類の商品があります。<br/>
+                合計: ${totalAmount}円 (${totalQuantity}個)
             </div>
             <div class="cart-table">
                 <c:forEach var="item" items="${cart}">
@@ -200,7 +210,7 @@
                         <p>価格: ${item.product.price}円</p>
                         
                         <!-- 数量変更フォーム -->
-                        <form action="CartAdd.action" method="post">
+                        <form action="CartUpdate.action" method="post">
                             <input type="hidden" name="id" value="${item.product.id}">
                             <label for="quantity-${item.product.id}">数量:</label>
                             <select name="quantity" id="quantity-${item.product.id}">
